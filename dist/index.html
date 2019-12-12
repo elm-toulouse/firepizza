@@ -10,6 +10,8 @@
         <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-firestore.js"></script>
         <script src="main.js"></script>
         <script>
+            var app = Elm.Main.init({ node: document.getElementById('main') });
+
             // Set the configuration for your app
             var config = {
                 apiKey: "AIzaSyDsGwfcJOxtgy5CLZymU6S5VOKqTzPwaV4",
@@ -27,8 +29,6 @@
             db.collection("pizzas").get()
                 .then(querySnapshot => querySnapshot.docs.map((doc) => doc.data()))
                 .then(pizzas => app.ports.receivePizzas.send(pizzas));
-
-            var app = Elm.Main.init({ node: document.getElementById('main') });
         </script>
     </body>
 </html>

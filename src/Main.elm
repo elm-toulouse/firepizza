@@ -1,7 +1,7 @@
 port module Main exposing (homeButton, main, topBar)
 
 import Browser
-import Element exposing (Element, alignRight, centerY, el, fill, padding, rgb255, row, spacing, text, width)
+import Element exposing (Element, alignRight, centerX, centerY, el, fill, padding, rgb255, row, spacing, text, width)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -43,7 +43,7 @@ main =
 view : Model -> Html msg
 view model =
     Element.layout []
-        topBar
+        (Element.column [ width fill ] [ topBar, content model ])
 
 
 topBar : Element msg
@@ -62,6 +62,27 @@ homeButton =
         , padding 5
         ]
         (text "Pastasciutta")
+
+
+content : List Pizza -> Element msg
+content pizzas =
+    Element.column [ width fill, spacing 10 ] (List.map pizzaView pizzas)
+
+
+pizzaView : Pizza -> Element msg
+pizzaView pizza =
+    row [ width fill ]
+        [ Element.column [ width fill ]
+            [ text pizza.name
+            , text (String.join ", " pizza.ingredients)
+            ]
+        , text (String.join " " (List.map priceView pizza.price))
+        ]
+
+
+priceView : Int -> String
+priceView cents =
+    String.fromInt (cents // 100) ++ "€"
 
 
 decodePizzas : Decoder (List Pizza)
